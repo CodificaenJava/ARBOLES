@@ -1,0 +1,209 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package arbolbinario;
+
+/**
+ *
+ * @author fabi
+ */
+public class Arbol {
+    Nodo raiz = null;
+    
+    void insertar(int dato){
+        Nodo nuevo = new Nodo();
+        nuevo.dato = dato;
+        nuevo.derecha = null;
+        nuevo.izquierda = null;
+        if (raiz == null){
+            raiz = nuevo;
+        }else{
+            Nodo aux = raiz;
+            Nodo ant = null;
+            while(aux != null){
+                ant = aux;
+                if(nuevo.dato>aux.dato){
+                    aux = aux.derecha;
+                }else{
+                    aux = aux.izquierda;
+                }
+            }
+            if(nuevo.dato>ant.dato){
+                ant.derecha = nuevo;
+            }else{
+                ant.izquierda = nuevo;
+            }
+        }
+    }
+        
+    void recorrerInorder(Nodo aux){
+        if(aux == null){
+            System.out.print("");
+        }
+        if(aux != null){
+            recorrerInorder(aux.izquierda);
+            System.out.print(aux.dato+" ");
+            recorrerInorder(aux.derecha);
+        }
+    }
+      
+
+    void recorrerPreorden(Nodo aux){
+        if(aux == null){
+            System.out.print("");
+        }
+        if(aux != null){
+            System.out.print(aux.dato+" ");
+            recorrerPreorden(aux.izquierda);
+            recorrerPreorden(aux.derecha);
+        }
+    }
+
+
+    void recorrerPosorden(Nodo aux){
+        if(aux == null){
+            System.out.print("");
+        }
+        if(aux != null){
+            recorrerPosorden(aux.izquierda);
+            recorrerPosorden(aux.derecha);
+            System.out.print(aux.dato+" ");
+        }
+    }    
+    
+
+    boolean eliminar(int dato){
+         Nodo aux = raiz;
+         Nodo padre = raiz;
+         boolean esHijoIzq = true;
+         while(aux.dato != dato){
+             padre = aux;
+             if(dato < aux.dato){
+                 esHijoIzq = true;
+                 aux = aux.izquierda;
+             }else{
+                 esHijoIzq=false;
+                 aux=aux.derecha;
+             }if(aux==null){
+                 return false;
+             }
+         }
+         if(aux.izquierda== null && aux.derecha==null){
+             if(aux==raiz){
+                 raiz=null;
+             }else if(esHijoIzq){
+                 padre.izquierda=null;
+             }else{
+                 padre.derecha=null;
+             }
+         }else if(aux.derecha== null){
+             if(aux==raiz){
+                 raiz=aux.izquierda;
+             }else if(esHijoIzq){
+                 padre.izquierda=aux.izquierda;
+             }else{
+                 padre.derecha=aux.izquierda;
+             }
+         }else if(aux.izquierda == null){
+             if(aux==raiz){
+                 raiz=aux.derecha;
+             }else if(esHijoIzq){
+                 padre.izquierda=aux.derecha;
+             }else{
+                 padre.derecha=aux.izquierda;
+             }
+         }else{
+             Nodo reemplazo = obtenerNodoReemplazo(aux);
+             if(aux==raiz){
+                 raiz=reemplazo;
+             }else if(esHijoIzq){
+                 padre.izquierda = reemplazo;
+             }else{
+                 padre.derecha = reemplazo;
+             }
+             reemplazo.izquierda=aux.izquierda;
+         }
+         return true;
+     }
+     
+    Nodo obtenerNodoReemplazo(Nodo Nodoremp){
+        Nodo reemplazarPadre = Nodoremp;
+        Nodo reemplazo = Nodoremp;
+        Nodo aux = Nodoremp.derecha;
+        while(aux != null){
+            reemplazarPadre = reemplazo;
+            reemplazo = aux;
+            aux = aux.izquierda;
+        }
+        if(reemplazo != Nodoremp.derecha){
+            reemplazarPadre.izquierda = reemplazo.derecha;
+            reemplazo.derecha = Nodoremp.derecha;
+        }
+        System.out.println("El nodo reemplazo es: "+reemplazo);
+        return reemplazo;
+    } 
+     
+     
+     int profundidad(Nodo aux){
+         int prof = 1;
+         if(aux.izquierda == null && aux.derecha == null){
+             return prof;
+         }else if(aux.derecha != null){
+             return prof + (profundidad(aux.derecha));
+         }else{
+             return prof + (profundidad(aux.izquierda));
+         }
+     }
+     
+
+     void recorrerNiveles(Nodo aux){
+                if(aux==raiz || (aux.derecha == null && aux.izquierda== null)){
+                    System.out.print(aux.dato+" ");
+                }
+                if(aux.izquierda != null){
+                    System.out.print(aux.izquierda.dato+" ");
+                }
+                 if(aux.derecha !=null){
+                    System.out.print(aux.derecha.dato+" ");   
+                }
+                if(aux.izquierda.izquierda != null){
+                    System.out.print(aux.izquierda.izquierda.dato+" ");
+                }
+                if(aux.izquierda.derecha != null){
+                    System.out.print(aux.izquierda.derecha.dato+" ");
+                }
+                if(aux.derecha.izquierda != null){
+                    System.out.print(aux.derecha.izquierda.dato+" ");
+                }
+                if(aux.derecha.derecha != null){
+                    System.out.print(aux.derecha.derecha.dato+" ");
+                }
+                if(aux.derecha == null && aux.izquierda== null){
+                    System.out.print(aux.dato+" ");
+                }
+                if(aux.derecha == null && aux.izquierda== null){
+                recorrerNiveles(aux.izquierda);
+                recorrerNiveles(aux.derecha);
+                }   
+     }
+     
+     void recorrerNiveles2(Nodo aux){
+        Cola cola = new Cola(); 
+        Cola colaAux= new Cola(); 
+        if (aux != null){
+            cola.queue(aux.dato); 
+            while (cola.inicio != null && cola.fin!= null) {
+            colaAux.queue(cola.dequeue()); 
+            if (aux.izquierda != null) {
+                cola.queue(aux.izquierda.dato); 
+            }
+            if (aux.derecha!= null) {
+                cola.queue(aux.derecha.dato); 
+            }
+        }
+        colaAux.recorrer(); 
+        }
+    }
+}
