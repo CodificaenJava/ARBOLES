@@ -1,0 +1,52 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package arbolbinario;
+
+/**
+ *
+ * @author fabi
+ */
+public class ArbolBinario {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+        Arbol arbolito = new Arbol();
+
+        arbolito.insertar(11);
+        arbolito.insertar(4);
+        arbolito.insertar(-1);
+        arbolito.insertar(0);
+        arbolito.insertar(7);
+        arbolito.insertar(5);
+        arbolito.insertar(22);
+        arbolito.insertar(25);
+        arbolito.insertar(66);
+        arbolito.insertar(99);
+        arbolito.insertar(2);
+        arbolito.insertar(13);
+        arbolito.insertar(50);
+        arbolito.insertar(-20);
+        arbolito.insertar(100);
+
+        System.out.println("~~**ARBOL ORIGINAL**~~");
+        System.out.println("Arbol ordenado Inorder: ");
+        arbolito.recorrerInorder(arbolito.raiz);
+        System.out.println("\nArbol ordenado preorder: ");
+        arbolito.recorrerPreorden(arbolito.raiz);
+        System.out.println("\nArbol ordenado posorder: ");
+        arbolito.recorrerPosorden(arbolito.raiz);
+        System.out.println("\n");
+        System.out.println("Eliminando:");
+        arbolito.eliminar(2);
+        System.out.println("\nProfundidad: "+ arbolito.profundidad(arbolito.raiz));
+        arbolito.recorrerNiveles(arbolito.raiz);
+    }
+
+    
+}
